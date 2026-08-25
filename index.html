@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prof Raf's Survival Guides</title>
+    <style>
+        :root {
+            --navy: #141C52;
+            --navy-light: #2A3470;
+            --gold: #F2B705;
+            --gold-hover: #ffd747;
+            --bg-wash: #F5F6FA;
+            --text-main: #1A1A1A;
+            --text-muted: #6B7280;
+            --card-border: #D8DCE8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-wash);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- Header / Hero Section --- */
+        header {
+            background-color: var(--navy);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--gold);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #E9EBF2;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .avatar {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+        }
+
+        /* --- Main Content & Grid --- */
+        main {
+            flex: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--navy);
+            font-weight: 800;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background-color: var(--card-border);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* --- Cards --- */
+        .card {
+            background: white;
+            border: 1.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--card-border);
+            transition: background-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(20, 28, 82, 0.08);
+            border-color: var(--navy-light);
+        }
+
+        .card:hover::before {
+            background-color: var(--navy);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            flex: 1;
+        }
+
+        .card-action {
+            display: inline-block;
+            background-color: var(--wash);
+            color: var(--navy);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1.5px solid var(--card-border);
+            align-self: flex-start;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover .card-action {
+            background-color: var(--navy);
+            color: white;
+            border-color: var(--navy);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--card-border);
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 2rem; }
+            main { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="avatar">👨‍🏫</div>
+        <h1>Prof Raf's Toolkit</h1>
+        <p>Information Systems Fundamentals &bull; Visual survival guides and mental models for navigating the course.</p>
+    </header>
+
+    <main>
+        <div class="section-title">Survival Guides</div>
+        
+        <div class="grid">
+            <!-- Card 1: GitHub Pages -->
+            <a href="GitHubPages-SG.html" class="card">
+                <div class="card-icon">🌐</div>
+                <h2 class="card-title">GitHub Pages</h2>
+                <p class="card-desc">A visual map to deploying your first personal website without the cognitive overload. Avoid the Chancleta alerts.</p>
+                <span class="card-action">View Guide &rarr;</span>
+            </a>
+
+            <!-- Card 2: Resource Model -->
+            <!-- Update the href below if your filename is different! -->
+            <a href="ResourceModel-SG.html" class="card">
+                <div class="card-icon">🗺️</div>
+                <h2 class="card-title">Resource Model</h2>
+                <p class="card-desc">Master the 2x2 matrix of business processes. Learn to classify human and tech resources as internal or external.</p>
+                <span class="card-action">View Guide &rarr;</span>
+            </a>
+            
+            <!-- Placeholder for future guides -->
+            <div class="card" style="opacity: 0.6; pointer-events: none;">
+                <div class="card-icon">🔒</div>
+                <h2 class="card-title">Locked Guide</h2>
+                <p class="card-desc">More visual frameworks and survival guides will be unlocked as the term progresses.</p>
+                <span class="card-action">Coming Soon</span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Prof Raf &bull; Singapore Management University</p>
+    </footer>
+
+</body>
+</html>
