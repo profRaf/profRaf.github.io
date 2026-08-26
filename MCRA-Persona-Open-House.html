@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survival Guide: High-Impact Personas</title>
+<style>
+  /* CORE VARIABLES - SMU PALETTE */
+  :root{
+    --navy:#141C52;
+    --navy-soft:#2A3470;
+    --gold:#F2B705;
+    --red:#C8102E;
+    --teal:#0F7B8A;
+    --ink:#1A1A1A;
+    --grey:#6B7280;
+    --line:#D8DCE8;
+    --wash:#F5F6FA;
+  }
+  
+  /* BASE SETUP */
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    background:#E9EBF2; color:var(--ink); padding:16px;
+  }
+  .page{
+    width:210mm; min-height:297mm; margin:0 auto; background:#fff;
+    padding:11mm 12mm 9mm; display:flex; flex-direction:column; gap:6mm;
+    box-shadow:0 4px 24px rgba(20,28,82,.18);
+  }
+
+  /* HEADER */
+  header{
+    background:var(--navy); color:#fff; border-radius:10px;
+    padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:14px;
+  }
+  header h1{font-size:22px;letter-spacing:.2px;}
+  header .sub{font-size:11.5px;opacity:.85;margin-top:3px;}
+  .qbadge{
+    background:var(--gold); color:var(--navy); border-radius:8px;
+    padding:8px 12px; font-size:11px; font-weight:700; line-height:1.35; text-align:right; min-width:56mm;
+  }
+  .qbadge span{display:block;font-size:9px;font-weight:600;opacity:.75;text-transform:uppercase;letter-spacing:.8px;}
+
+  .exam-ready {
+    background: var(--wash); border-left: 4px solid var(--teal); 
+    padding: 10px 14px; font-size: 13px; font-style: italic; color: var(--navy-soft);
+    font-weight: 600; border-radius: 4px;
+  }
+
+  /* SECTION LABELS */
+  .section-label{
+    font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--navy);display:flex;align-items:center;gap:8px;
+  }
+  .section-label::after{content:"";flex:1;height:2px;background:var(--line);}
+
+  /* UTILITY: STEPS GRID */
+  .steps-grid{display:grid;grid-template-columns:1fr 1fr;gap:4mm;}
+  .step-card{border:1.5px solid var(--line);border-radius:10px;padding:14px 16px;position:relative;border-top:3px solid var(--navy);}
+  .step-num{
+    position:absolute;top:-10px;left:12px;background:var(--navy);color:#fff;
+    width:22px;height:22px;border-radius:50%;display:flex;align-items:center;
+    justify-content:center;font-size:12px;font-weight:800;
+  }
+  .step-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .step-text{font-size:12px;line-height:1.5;margin-bottom:8px;}
+  .step-card b{color: var(--teal);}
+  
+  /* UTILITY: TRAPS / ALERTS */
+  .traps-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:4mm;}
+  .trap{
+    border:1.5px solid var(--red);border-top:5px solid var(--red);
+    border-radius:8px;padding:12px 11px;background:#FDF6F7;
+  }
+  .trap.warning{border-color:var(--gold);background:#FFFBEC;border-left:6px solid var(--gold);border-top:1.5px solid var(--gold);}
+  .trap h3{font-size:12px;color:var(--navy);margin-bottom:6px; line-height: 1.2;}
+  .trap p{font-size:10.5px;line-height:1.4;margin-bottom:8px; color: var(--grey);}
+  .trap .bad{color:var(--red);text-decoration:line-through;font-family:monospace;display:block;font-size:10px;margin-bottom:4px;}
+  .trap .good{color:var(--teal);font-family:monospace;display:block;font-size:10px;font-weight:600;}
+
+  /* UTILITY: RETRIEVAL STRIP */
+  .retrieval{
+    border:1.5px dashed var(--navy-soft);border-radius:8px;padding:12px 14px;background:var(--wash);margin-top:auto;
+  }
+  .retrieval h3{font-size:13px;color:var(--navy);margin-bottom:2px;}
+  .retrieval .lead{font-size:10.5px;color:var(--grey);margin-bottom:10px;}
+  .items{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .item{background:#fff;border:1px solid var(--line);border-radius:6px;padding:9px 10px;font-size:11px;line-height:1.35;text-align:center;}
+  .item b{display:block;color:var(--navy);font-size:10px;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;}
+  .answers{margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:9px;color:var(--grey);transform:rotate(180deg);text-align:center;}
+
+  /* FOOTER */
+  footer{font-size:9px;color:var(--grey);display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:8px;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .page{box-shadow:none;width:auto;min-height:auto;padding:8mm;}
+    @page{size:A4 portrait;margin:6mm;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>High-Impact Personas 🎭</h1>
+      <div class="sub">Interaction Design &middot; Best Practices</div>
+    </div>
+    <div class="qbadge">
+      <span>One question it answers</span>
+      How do I design a persona that acts like a real SMU student?
+    </div>
+  </header>
+
+  <div class="exam-ready">
+    "A great persona is defined by their anxieties and competing priorities, not just their goals."
+  </div>
+
+  <div class="section-label">🧱 What To Do: The 4 Pillars of Reality</div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-title">Contextualise the Roots</div>
+      <div class="step-text">
+        Ground them in exact academic pathways instead of just calling them "smart."<br><br>
+        <b>Example:</b> Jia Hui's <i>H2 Math/Econ</i> vs. John's <i>Poly IT Diploma</i> dictates their technical confidence and whether repeating basic coding is a dealbreaker.
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-title">Surface the Friction</div>
+      <div class="step-text">
+        Identify their vulnerabilities and conflicting motivations. Do not just list career goals.<br><br>
+        <b>Example:</b> The ROI opportunity cost (a Poly grad giving up a $40k job offer) or <i>Status Anxiety</i> (peers viewing CS as the only "real" tech degree).
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-title">Factor in the NS Gap</div>
+      <div class="step-text">
+        For male students, the 2-year National Service gap is critical context, not a footnote.<br><br>
+        <b>Example:</b> Marcus feels academically rusty, relies on strict weekend book-outs, and scrolls IG comparison vlogs at 1:00 AM on his bunk bed.
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-title">Pinpoint Niche Channels</div>
+      <div class="step-text">
+        Move past generic terms like "Social Media" or "The Internet." Map granular, actionable touchpoints.<br><br>
+        <b>Example:</b> Lurking on <i>r/SGExams</i>, DM'ing SCIS seniors on LinkedIn, or reading <i>NUSWhispers</i> threads.
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:2mm;">🩴 Chancleta Alerts (What to Avoid)</div>
+  <div class="traps-grid">
+    <div class="trap">
+      <h3>1. The "Flat" Stereotype</h3>
+      <p>Labeling a student "unaware" without explaining the root cause of the ignorance.</p>
+      <span class="bad">❌ "David doesn't know tech."</span>
+      <span class="good">✅ "His JC lumps all IT together and nobody in his family works in tech."</span>
+    </div>
+    <div class="trap">
+      <h3>2. Corporate Jargon</h3>
+      <p>Writing user needs or quotes using abstract university prospectus copy.</p>
+      <span class="bad">❌ "Needs a synergistic degree option."</span>
+      <span class="good">✅ "Why waste four years and $40k to relearn basic coding?"</span>
+    </div>
+    <div class="trap">
+      <h3>3. Super-Student Bias</h3>
+      <p>Creating a flawless coder/speaker with zero emotional hang-ups or fears.</p>
+      <span class="bad">❌ "Exceptional coder and public speaker."</span>
+      <span class="good">✅ "Mathematically brilliant, but too anxious to speak up in seminars."</span>
+    </div>
+    <div class="trap warning">
+      <h3>4. The Vacuum Trap</h3>
+      <p>Forgetting that parents act as major financial gatekeepers and influencers.</p>
+      <span class="bad">❌ Student makes choice 100% alone.</span>
+      <span class="good">✅ Parents push for "safe" finance degrees due to fears of AI automation.</span>
+    </div>
+  </div>
+
+  <div class="retrieval">
+    <h3>🧠 Retrieval Practice</h3>
+    <div class="lead">Evaluate these persona snippets. Are they Good (Insightful) or Bad (Traps)?</div>
+    <div class="items">
+      <div class="item"><b>Snippet A</b><br>"I would like to acquire a prestigious and holistic degree."</div>
+      <div class="item"><b>Snippet B</b><br>"You gotta debug your choices before you push to your life repo."</div>
+      <div class="item"><b>Snippet C</b><br>"Finds course information via Social Media and School."</div>
+      <div class="item"><b>Snippet D</b><br>"Naturally takes charge of PW group chaos via Google Sheet trackers."</div>
+    </div>
+    <div class="answers">Answers: [A] Bad: Trap #2 (Corporate Jargon) | [B] Good: Authentic Vernacular | [C] Bad: Trap #4 (Generic Channels - list specific ones) | [D] Good: Contextualised Academic Reality</div>
+  </div>
+
+  <footer>
+    <div>IS@SMU</div>
+    <div>Persona Creation Quick Reference</div>
+  </footer>
+</div>
+</body>
+</html>
