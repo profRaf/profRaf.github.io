@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survival Guide: Business Process Modelling</title>
+<style>
+  /* CORE VARIABLES - SMU PALETTE */
+  :root{
+    --navy:#141C52;
+    --navy-soft:#2A3470;
+    --gold:#F2B705;
+    --red:#C8102E;
+    --teal:#0F7B8A;
+    --ink:#1A1A1A;
+    --grey:#6B7280;
+    --line:#D8DCE8;
+    --wash:#F5F6FA;
+  }
+  
+  /* BASE SETUP */
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    background:#E9EBF2; color:var(--ink); padding:16px;
+  }
+  .page{
+    width:210mm; min-height:297mm; margin:0 auto; background:#fff;
+    padding:11mm 12mm 9mm; display:flex; flex-direction:column; gap:6mm;
+    box-shadow:0 4px 24px rgba(20,28,82,.18);
+  }
+
+  /* HEADER */
+  header{
+    background:var(--navy); color:#fff; border-radius:10px;
+    padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:14px;
+  }
+  header h1{font-size:22px;letter-spacing:.2px;}
+  header .sub{font-size:11.5px;opacity:.85;margin-top:3px;}
+  .qbadge{
+    background:var(--gold); color:var(--navy); border-radius:8px;
+    padding:8px 12px; font-size:11px; font-weight:700; line-height:1.35; text-align:right; min-width:56mm;
+  }
+  .qbadge span{display:block;font-size:9px;font-weight:600;opacity:.75;text-transform:uppercase;letter-spacing:.8px;}
+
+  /* SECTION LABELS */
+  .section-label{
+    font-size:10px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--navy);display:flex;align-items:center;gap:8px;
+  }
+  .section-label::after{content:"";flex:1;height:2px;background:var(--line);}
+
+  /* CUSTOM LAYOUT: 4 LAYERS GRID */
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; margin-bottom: 2mm; }
+  .layer-card { border: 1.5px solid var(--line); border-radius: 10px; padding: 14px 14px; position: relative; border-top: 3px solid var(--teal); background: #fff;}
+  .layer-card:nth-child(even) { border-top-color: var(--navy); }
+  .layer-num { position: absolute; top: -12px; left: 12px; background: var(--teal); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+  .layer-card:nth-child(even) .layer-num { background: var(--navy); }
+  .layer-title { font-size: 14px; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+  
+  ul.custom-list { padding-left: 16px; font-size: 11px; line-height: 1.45; margin-bottom: 8px; }
+  ul.custom-list li { margin-bottom: 4px; }
+  
+  .exam-sentence { font-style: italic; background: #FFF9E6; padding: 6px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid var(--gold); margin-bottom: 8px;}
+  .exam-sentence::before { content: "✍️ Exam-Ready: "; font-weight: 700; font-style: normal; color:var(--navy); }
+  
+  .case-study { background: #E8F5F6; padding: 8px; border-radius: 6px; font-size: 10px; border-left: 3px solid var(--teal); margin-top: 8px; color: var(--navy-soft); line-height: 1.35; }
+  .case-study strong { color: var(--teal); text-transform: uppercase; font-size: 8.5px; letter-spacing: 0.5px;}
+
+  /* 2x2 MINI MATRIX */
+  .mini-matrix { display: grid; grid-template-columns: 18px 1fr 1fr; grid-template-rows: 18px 1fr 1fr; gap: 2px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; margin: 8px 0;}
+  .mm-cell { background: #fff; padding: 6px; font-size: 9.5px; display:flex; align-items:center; justify-content:center; text-align:center; flex-direction:column;}
+  .mm-head { background: var(--wash); font-weight: 700; text-align: center; font-size: 8px; display:flex; align-items:center; justify-content:center; color: var(--navy); text-transform:uppercase; letter-spacing:0.5px;}
+  .mm-head.vert { writing-mode: vertical-rl; transform: rotate(180deg); }
+  .mm-val { font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .mm-ex { color: var(--grey); font-size: 8.5px; font-style: italic; }
+
+  /* WORKFLOW GRID */
+  .workflow-grid { display: grid; grid-template-columns: 1fr; gap: 4px; margin-top: 6px; font-size: 10px;}
+  .wf-row { display: flex; align-items: center; gap: 8px; background: var(--wash); padding: 5px 8px; border-radius: 4px; }
+  .wf-icon { font-size: 14px; width: 20px; text-align: center; }
+
+  /* UTILITY: TRAPS / ALERTS */
+  .traps-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:4mm; margin-bottom: 2mm;}
+  .trap{
+    border:1.5px solid var(--red);border-top:5px solid var(--red);
+    border-radius:8px;padding:10px 11px;background:#FDF6F7;
+  }
+  .trap h3{font-size:11.5px;color:var(--navy);margin-bottom:5px;}
+  .trap p{font-size:10px;line-height:1.4;margin-bottom:6px;}
+  .trap .bad{color:var(--red);text-decoration:line-through;font-family:monospace;display:block;font-size:9.5px;margin-bottom:2px;}
+  .trap .good{color:var(--teal);font-family:monospace;display:block;font-size:9.5px;font-weight:600;}
+
+  /* UTILITY: RETRIEVAL STRIP */
+  .retrieval{
+    border:1.5px dashed var(--navy-soft);border-radius:8px;padding:10px 13px;background:var(--wash);margin-top:auto;
+  }
+  .retrieval h3{font-size:12px;color:var(--navy);margin-bottom:2px;}
+  .retrieval .lead{font-size:9.5px;color:var(--grey);margin-bottom:8px;}
+  .items{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}
+  .item{background:#fff;border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-size:10px;line-height:1.35;text-align:center;}
+  .item b{display:block;color:var(--navy);font-size:9px;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.5px;}
+  .answers{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line);font-size:8.5px;color:var(--grey);transform:rotate(180deg);text-align:center;}
+
+  /* FOOTER */
+  footer{font-size:8.5px;color:var(--grey);display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:6px;}
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .page{box-shadow:none;width:auto;min-height:auto;padding:8mm;}
+    @page{size:A4 portrait;margin:6mm;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Business Process Modelling 🧭</h1>
+      <div class="sub">IS210 BPAS &middot; Week 2 Session Notes</div>
+    </div>
+    <div class="qbadge">
+      <span>One question it answers</span>
+      How do we map a business process accurately from high-level context down to workflow steps?
+    </div>
+  </header>
+
+  <div class="section-label" style="margin-bottom: 2mm;">🗺️ The 4 Layers of Process Modelling</div>
+  
+  <div class="card-grid">
+    <!-- LAYER 1 -->
+    <div class="layer-card">
+      <div class="layer-num">1</div>
+      <div class="layer-title">Abstraction & Baseline</div>
+      <ul class="custom-list">
+        <li><strong>Abstraction Scope:</strong> Must be defined early. Don't discuss "continents" when stakeholders need "cities".</li>
+        <li><strong>Process Discovery:</strong> Analyze the "as-is" current state before solving for the future state.</li>
+      </ul>
+      <div class="exam-sentence">Without a baseline and clear metrics, an organization has no way to measure if a process change is actually an improvement.</div>
+      <div class="case-study">
+        <strong>Worked Example: Retail Complaints</strong><br>
+        Are we fixing global returns or one store's social media feedback? We must set the scope and record current wait times first.
+      </div>
+    </div>
+
+    <!-- LAYER 2 -->
+    <div class="layer-card">
+      <div class="layer-num">2</div>
+      <div class="layer-title">Org & Location Models</div>
+      <ul class="custom-list">
+        <li><strong>Job (Title):</strong> The formal position title.</li>
+        <li><strong>Role (Function):</strong> The specific responsibilities within a process. A single job usually holds multiple roles.</li>
+        <li><strong>Location:</strong> Defines <i>where</i> the process happens. Dictates physical constraints (Taxes, Time zones, Data laws).</li>
+      </ul>
+      <div class="case-study" style="margin-top:14px;">
+        <strong>Worked Example: Retail Complaints</strong><br>
+        <b>Job:</b> Sales Associate. <b>Role:</b> Complaint Handler.<br>
+        <b>Location:</b> Singapore (Process must comply with PDPA).
+      </div>
+    </div>
+
+    <!-- LAYER 3 -->
+    <div class="layer-card">
+      <div class="layer-num">3</div>
+      <div class="layer-title">The Resource Model</div>
+      <p style="font-size:11px; margin-bottom:4px;">Defines the participants and systems based on <b>Governance</b>:</p>
+      
+      <div class="mini-matrix">
+        <div class="mm-head"></div>
+        <div class="mm-head">HUMAN</div>
+        <div class="mm-head">SYSTEM</div>
+        
+        <div class="mm-head vert">INTERNAL<br>(We Govern)</div>
+        <div class="mm-cell"><div class="mm-val">Our Staff</div><div class="mm-ex">Complaint Handler</div></div>
+        <div class="mm-cell"><div class="mm-val">Proprietary</div><div class="mm-ex">Internal CRM DB</div></div>
+        
+        <div class="mm-head vert">EXTERNAL<br>(We Don't)</div>
+        <div class="mm-cell"><div class="mm-val">Customers</div><div class="mm-ex">Complaining User</div></div>
+        <div class="mm-cell"><div class="mm-val">3rd Party</div><div class="mm-ex">Social Media Platform</div></div>
+      </div>
+      
+      <div class="case-study">
+        <strong>Worked Example: Retail Complaints</strong><br>
+        The Customer (Ext. Human) uses Twitter (Ext. System). Our Staff (Int. Human) uses our CRM database (Int. System).
+      </div>
+    </div>
+
+    <!-- LAYER 4 -->
+    <div class="layer-card">
+      <div class="layer-num">4</div>
+      <div class="layer-title">Workflow Basics (BPMN)</div>
+      <p style="font-size:11px; margin-bottom:2px;">Mapped via swimlanes (ownership) and flow elements:</p>
+      <div class="workflow-grid">
+        <div class="wf-row"><div class="wf-icon">👤</div><div><b>Manual Task:</b> Human only (no IT system used).</div></div>
+        <div class="wf-row"><div class="wf-icon">💻</div><div><b>User Task:</b> Human interacting with an IT system.</div></div>
+        <div class="wf-row"><div class="wf-icon">⚙️</div><div><b>Service Task:</b> Automated system only (no human).</div></div>
+        <div class="wf-row"><div class="wf-icon">✖️</div><div><b>XOR Gateway:</b> Exclusive decision (Splits to A <u>or</u> B).</div></div>
+        <div class="wf-row"><div class="wf-icon">➕</div><div><b>Parallel Gateway:</b> Concurrent execution (A <u>and</u> B).</div></div>
+      </div>
+      <div class="case-study" style="margin-top:6px;">
+        <strong>Worked Example: Retail Complaints</strong><br>
+        The <i>Complaint Handler</i> (Swimlane) logs the ticket (💻 <b>User Task</b>). The path splits: Refund <b>OR</b> Replace (✖️ <b>XOR</b>).
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANCLETA ALERTS -->
+  <div class="section-label" style="margin-top:2mm; margin-bottom:2mm;">🩴 Chancleta Alerts (Fatal Errors)</div>
+  <div class="traps-grid">
+    <div class="trap">
+      <h3>1. Job vs Role Trap</h3>
+      <p>Using formal titles instead of process functions in swimlanes.</p>
+      <span class="bad">Swimlane: "Store Manager"</span>
+      <span class="good">Swimlane: "Approver"</span>
+    </div>
+    <div class="trap">
+      <h3>2. "We Use It" Trap</h3>
+      <p>Thinking an app is internal just because your staff uses it for work.</p>
+      <span class="bad">WhatsApp is an Internal System</span>
+      <span class="good">WhatsApp is an External System</span>
+    </div>
+    <div class="trap">
+      <h3>3. Manual System Trap</h3>
+      <p>Thinking data entry is "Manual" because human hands do the typing.</p>
+      <span class="bad">Typing data is a Manual Task</span>
+      <span class="good">Typing data is a User Task</span>
+    </div>
+  </div>
+
+  <!-- RETRIEVAL PRACTICE -->
+  <div class="retrieval">
+    <h3>🧠 Retrieval Practice</h3>
+    <div class="lead">Test your understanding. Identify the BPMN elements or models based on the scenario:</div>
+    <div class="items">
+      <div class="item">
+        <b>Q1: Task Type</b>
+        A worker physically restocks shelves in the warehouse without scanning anything.
+      </div>
+      <div class="item">
+        <b>Q2: Gateway Type</b>
+        A workflow branches into two paths that must BOTH be completed simultaneously.
+      </div>
+      <div class="item">
+        <b>Q3: Resource Model</b>
+        A popular public review website where customers leave feedback.
+      </div>
+      <div class="item">
+        <b>Q4: Org Model</b>
+        The formal title "Senior Lecturer" given to an employee by HR.
+      </div>
+    </div>
+    <div class="answers">Answers: [1] Manual Task | [2] Parallel Gateway | [3] External System | [4] Job (Not Role)</div>
+  </div>
+
+  <footer>
+    <div>IS210 Business Process Analysis &amp; Solutioning</div>
+    <div>Survival Guide &middot; Note: Course KPI expects 80% correct / 20% incorrect ratio</div>
+  </footer>
+</div>
+</body>
+</html>
