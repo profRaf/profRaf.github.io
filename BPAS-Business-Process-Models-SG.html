@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which model do I use? Decision Guide</title>
+<style>
+  :root{
+    --navy:#141C52;
+    --gold:#F2B705;       /* Organisation: Why */
+    --orange:#E8791C;     /* Location: Where */
+    --red:#C8102E;        /* Resource: Who */
+    --green:#16803C;      /* Process Workflow: How, When */
+    --purple:#6E4AA5;     /* Business Rules: Governance */
+    --ink:#1A1A1A;
+    --grey:#6B7280;
+    --line:#D8DCE8;
+    --wash:#F5F6FA;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    background:#E9EBF2;
+    color:var(--ink);
+    padding:16px;
+  }
+
+  .page{
+    width:210mm;
+    min-height:297mm;
+    margin:0 auto;
+    background:#fff;
+    padding:11mm 12mm 9mm;
+    display:flex;
+    flex-direction:column;
+    gap:5mm;
+    box-shadow:0 4px 24px rgba(20,28,82,.18);
+  }
+
+  header{
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+  }
+
+  h1{font-size:23px;letter-spacing:.1px;}
+
+  .sub{
+    font-size:11.5px;
+    opacity:.86;
+    margin-top:3px;
+  }
+
+  .qbadge{
+    background:var(--gold);
+    color:var(--navy);
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:11px;
+    font-weight:800;
+    line-height:1.35;
+    text-align:right;
+    min-width:58mm;
+  }
+
+  .qbadge span{
+    display:block;
+    font-size:9px;
+    font-weight:700;
+    opacity:.75;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+  }
+
+  .section-label{
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .section-label::after{
+    content:"";
+    flex:1;
+    height:2px;
+    background:var(--line);
+  }
+
+  .purpose{
+    background:var(--wash);
+    border-left:6px solid var(--green);
+    border-radius:7px;
+    padding:9px 12px;
+    font-size:11px;
+    line-height:1.42;
+  }
+
+  .purpose b{color:var(--navy);}
+
+  .matrix{
+    display:grid;
+    grid-template-columns:1.05fr .9fr 1.3fr;
+    border:1px solid var(--line);
+    border-radius:9px;
+    overflow:hidden;
+  }
+
+  .cell{
+    padding:8px 9px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    font-size:10px;
+    line-height:1.32;
+    background:#fff;
+  }
+
+  .cell:nth-child(3n){border-right:0;}
+  .cell:nth-last-child(-n+3){border-bottom:0;}
+
+  .head{
+    background:var(--navy);
+    color:#fff;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.65px;
+    text-transform:uppercase;
+  }
+
+  .question{
+    font-weight:700;
+    color:var(--navy);
+  }
+
+  .model{
+    font-weight:800;
+    color:#fff;
+    border-radius:5px;
+    padding:3px 5px;
+    display:inline-block;
+    font-size:9px;
+    line-height:1.1;
+  }
+
+  .org{background:var(--gold);color:var(--navy);}
+  .location{background:var(--orange);}
+  .resource{background:var(--red);}
+  .workflow{background:var(--green);}
+  .rules{background:var(--purple);}
+
+  .cue{color:var(--grey);}
+  .cue b{color:var(--ink);}
+
+  .steps-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:4mm;
+  }
+
+  .step-card{
+    border:1.5px solid var(--line);
+    border-radius:9px;
+    padding:10px 11px 9px;
+    border-top:4px solid var(--navy);
+  }
+
+  .step-title{
+    font-size:12px;
+    font-weight:800;
+    color:var(--navy);
+    margin-bottom:5px;
+  }
+
+  .step-text{
+    font-size:10.3px;
+    line-height:1.42;
+  }
+
+  .example{
+    margin-top:7px;
+    padding:6px 7px;
+    background:var(--wash);
+    border-radius:5px;
+    font-size:9.5px;
+    line-height:1.35;
+  }
+
+  .example b{color:var(--green);}
+
+  .trap-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:4mm;
+  }
+
+  .trap{
+    border:1.5px solid var(--red);
+    border-top:5px solid var(--red);
+    border-radius:8px;
+    padding:9px 10px;
+    background:#FDF6F7;
+  }
+
+  .trap h3{
+    font-size:11px;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+
+  .trap p{
+    font-size:9.5px;
+    line-height:1.35;
+    margin-bottom:5px;
+  }
+
+  .bad{
+    color:var(--red);
+    text-decoration:line-through;
+    font-family:monospace;
+    font-size:9px;
+    display:block;
+  }
+
+  .good{
+    color:var(--green);
+    font-family:monospace;
+    font-size:9px;
+    font-weight:700;
+    display:block;
+  }
+
+  .exam{
+    border:1.5px solid var(--gold);
+    background:#FFFBEC;
+    border-radius:8px;
+    padding:9px 11px;
+    font-size:10.5px;
+    line-height:1.4;
+  }
+
+  .exam b{color:var(--navy);}
+
+  .retrieval{
+    border:1.5px dashed var(--navy);
+    border-radius:8px;
+    padding:9px 12px;
+    background:var(--wash);
+    margin-top:auto;
+  }
+
+  .retrieval h3{
+    font-size:12px;
+    color:var(--navy);
+    margin-bottom:2px;
+  }
+
+  .lead{
+    font-size:9.5px;
+    color:var(--grey);
+    margin-bottom:7px;
+  }
+
+  .items{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:7px;
+  }
+
+  .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 7px;
+    font-size:9.2px;
+    line-height:1.3;
+    text-align:center;
+  }
+
+  .item b{
+    display:block;
+    color:var(--navy);
+    font-size:8.5px;
+    margin-bottom:3px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+
+  .answers{
+    margin-top:7px;
+    padding-top:6px;
+    border-top:1px dashed var(--line);
+    font-size:8.5px;
+    color:var(--grey);
+    transform:rotate(180deg);
+    text-align:center;
+  }
+
+  footer{
+    font-size:8.5px;
+    color:var(--grey);
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:6px;
+  }
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .page{box-shadow:none;width:auto;min-height:auto;padding:8mm;}
+    @page{size:A4 portrait;margin:6mm;}
+  }
+</style>
+</head>
+
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>Which model do I use? 🧭</h1>
+      <div class="sub">Business Process Modelling · Select the model by its purpose, not one tempting keyword</div>
+    </div>
+    <div class="qbadge">
+      <span>One question it answers</span>
+      What is this question<br>really trying to explain?
+    </div>
+  </header>
+
+  <div class="purpose">
+    <b>Fast rule:</b> Read the whole question. Then ask what information the answer must reveal:
+    <b>structure</b>, <b>place</b>, <b>things involved</b>, <b>work happening</b>, or <b>logic controlling work</b>.
+    The same noun, such as “manager”, “system”, or “approval”, can appear in more than one model.
+  </div>
+
+  <div class="section-label">1 · Match the purpose to the model</div>
+
+  <div class="matrix">
+    <div class="cell head">If the question asks...</div>
+    <div class="cell head">Primary model</div>
+    <div class="cell head">Diagnostic cue</div>
+
+    <div class="cell question">“Who reports to whom?”<br>“Which unit owns this team?”</div>
+    <div class="cell"><span class="model org">Organisation · Why</span></div>
+    <div class="cell cue"><b>Structure and hierarchy.</b> Reporting line, department, business unit, role placement.</div>
+
+    <div class="cell question">“Where does the business or solution operate?”<br>“Which country hosts the service?”</div>
+    <div class="cell"><span class="model location">Location · Where</span></div>
+    <div class="cell cue"><b>Geography and deployment context.</b> Country, branch, site, region, time zone, regulation.</div>
+
+    <div class="cell question">“Who or what is involved?”<br>“Which people, systems, or suppliers are needed?”</div>
+    <div class="cell"><span class="model resource">Resource · Who</span></div>
+    <div class="cell cue"><b>Actors and assets.</b> Humans, technologies, internal/external parties, capabilities.</div>
+
+    <div class="cell question">“Who performs what, in what order, and how long?”</div>
+    <div class="cell"><span class="model workflow">Workflow · How, When</span></div>
+    <div class="cell cue"><b>Activities and movement.</b> Sequence, hand-offs, swimlanes, gateways, timing.</div>
+
+    <div class="cell question">“What condition, formula, policy, or criterion applies?”</div>
+    <div class="cell"><span class="model rules">Business Rules · Governance</span></div>
+    <div class="cell cue"><b>Logic governing an activity.</b> IF/THEN, eligibility, threshold, validation, calculation.</div>
+  </div>
+
+  <div class="section-label">2 · Use the Subway order case to resolve ambiguity</div>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-title">👥 “The sandwich artist handles orders.”</div>
+      <div class="step-text">
+        <b>Resource</b> if the point is that a sandwich artist is a required human participant.
+        <div class="example"><b>Ask:</b> “Who is involved?” → <span class="model resource">Resource</span></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-title">➡️ “The sandwich artist checks the order, then prepares it.”</div>
+      <div class="step-text">
+        <b>Process Workflow</b> if the point is activities, sequence, and responsibility.
+        <div class="example"><b>Ask:</b> “Who does what next?” → <span class="model workflow">Workflow</span></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-title">🏢 “The store manager supervises sandwich artists.”</div>
+      <div class="step-text">
+        <b>Organisation</b> if the point is authority or reporting relationship, not simply that both are people.
+        <div class="example"><b>Ask:</b> “Who reports to whom?” → <span class="model org">Organisation</span></div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-title">✅ “A manager approval is required above $100.”</div>
+      <div class="step-text">
+        <b>Business Rules</b> if the point is the threshold that determines whether approval is needed.
+        <div class="example"><b>Ask:</b> “Under what condition?” → <span class="model rules">Business Rules</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label">🩴 Chancleta Alerts · Do not classify by keyword alone</div>
+
+  <div class="trap-grid">
+    <div class="trap">
+      <h3>“Person” does not always mean Resource</h3>
+      <p>A person can be an actor, a step owner, or a manager in a hierarchy.</p>
+      <span class="bad">“Manager” = Resource</span>
+      <span class="good">Purpose: actor / sequence / reporting?</span>
+    </div>
+
+    <div class="trap">
+      <h3>“Approval” does not always mean Workflow</h3>
+      <p>Approval may be an activity. The threshold triggering it is a rule.</p>
+      <span class="bad">“Approval” = Workflow</span>
+      <span class="good">Action = Workflow; condition = Rule</span>
+    </div>
+
+    <div class="trap">
+      <h3>Do not force one fact into one model</h3>
+      <p>Complementary models can describe the same case from different angles.</p>
+      <span class="bad">Pick the “best keyword”</span>
+      <span class="good">Pick the question's intended view</span>
+    </div>
+  </div>
+
+  <div class="exam">
+    <b>Exam-Ready Sentence:</b> “I select the <em>[model]</em> because the question seeks to describe <em>[structure / location / participants / sequence of work / governing logic]</em>, rather than merely mentioning a related keyword.”
+  </div>
+
+  <div class="retrieval">
+    <h3>🧠 Retrieval Practice</h3>
+    <div class="lead">Name the primary model first. Then say why in five words or fewer.</div>
+
+    <div class="items">
+      <div class="item"><b>1</b>Which teams report to the Head of Operations?</div>
+      <div class="item"><b>2</b>Which POS system and delivery platform are involved?</div>
+      <div class="item"><b>3</b>After payment, who packs the order and when is it collected?</div>
+      <div class="item"><b>4</b>When must an order be escalated to a manager?</div>
+    </div>
+
+    <div class="answers">
+      Answers: 1 Organisation: reporting structure | 2 Resource: technologies involved | 3 Process Workflow: activities, responsibility, timing | 4 Business Rules: escalation condition
+    </div>
+  </div>
+
+  <footer>
+    <div>SMU Information Systems · Business Process Modelling</div>
+    <div>“Which model do I use?” Quick Reference</div>
+  </footer>
+</div>
+</body>
+</html>
