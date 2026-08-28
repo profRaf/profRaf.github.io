@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New UG Course Proposal Workflow</title>
+<style>
+  :root{
+    --navy:#141C52;
+    --navy-soft:#2A3470;
+    --gold:#F2B705;
+    --red:#C8102E;
+    --teal:#0F7B8A;
+    --ink:#1A1A1A;
+    --grey:#6B7280;
+    --line:#D8DCE8;
+    --wash:#F5F6FA;
+    --green-wash:#EEF9F8;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    background:#E9EBF2;
+    color:var(--ink);
+    padding:16px;
+  }
+
+  .page{
+    width:210mm;
+    min-height:297mm;
+    margin:0 auto;
+    background:#fff;
+    padding:9mm 11mm 8mm;
+    display:flex;
+    flex-direction:column;
+    gap:4mm;
+    box-shadow:0 4px 24px rgba(20,28,82,.18);
+  }
+
+  header{
+    background:var(--navy);
+    color:#fff;
+    border-radius:10px;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+  }
+
+  header h1{
+    font-size:21px;
+    letter-spacing:.1px;
+  }
+
+  header .sub{
+    font-size:11px;
+    opacity:.86;
+    margin-top:3px;
+  }
+
+  .qbadge{
+    background:var(--gold);
+    color:var(--navy);
+    border-radius:8px;
+    padding:8px 11px;
+    font-size:10.5px;
+    font-weight:700;
+    line-height:1.3;
+    text-align:right;
+    min-width:58mm;
+  }
+
+  .qbadge span{
+    display:block;
+    font-size:8.5px;
+    font-weight:700;
+    opacity:.72;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    margin-bottom:2px;
+  }
+
+  .section-label{
+    font-size:9.5px;
+    font-weight:800;
+    letter-spacing:1.1px;
+    text-transform:uppercase;
+    color:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .section-label::after{
+    content:"";
+    flex:1;
+    height:2px;
+    background:var(--line);
+  }
+
+  .flow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:var(--wash);
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:8px 10px;
+  }
+
+  .flow-step{
+    text-align:center;
+    flex:1;
+    min-width:0;
+  }
+
+  .flow-icon{
+    font-size:19px;
+    line-height:1;
+  }
+
+  .flow-name{
+    color:var(--navy);
+    font-size:9.5px;
+    font-weight:800;
+    margin-top:3px;
+  }
+
+  .flow-arrow{
+    color:var(--gold);
+    font-size:16px;
+    font-weight:800;
+    padding:0 2px;
+  }
+
+  .steps-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:3.2mm;
+  }
+
+  .step-card{
+    border:1.3px solid var(--line);
+    border-radius:9px;
+    padding:10px 11px 9px;
+    position:relative;
+    border-top:3px solid var(--navy);
+    min-height:47mm;
+  }
+
+  .step-card:nth-child(2),
+  .step-card:nth-child(4){
+    border-top-color:var(--teal);
+  }
+
+  .step-card:nth-child(5),
+  .step-card:nth-child(6){
+    border-top-color:var(--gold);
+  }
+
+  .step-num{
+    position:absolute;
+    top:-10px;
+    left:11px;
+    background:var(--navy);
+    color:#fff;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:800;
+  }
+
+  .step-head{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:5px;
+  }
+
+  .step-emoji{
+    font-size:17px;
+  }
+
+  .step-title{
+    font-size:12.2px;
+    font-weight:800;
+    color:var(--navy);
+  }
+
+  .purpose{
+    font-size:9.5px;
+    line-height:1.35;
+    margin-bottom:5px;
+  }
+
+  .role{
+    display:inline-block;
+    background:var(--green-wash);
+    color:var(--teal);
+    border-radius:4px;
+    padding:3px 5px;
+    font-size:8.7px;
+    font-weight:800;
+    margin-bottom:5px;
+  }
+
+  .micro-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:6px;
+  }
+
+  .micro-title{
+    color:var(--navy);
+    font-size:8px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.55px;
+    margin-bottom:2px;
+  }
+
+  ul{
+    list-style:none;
+  }
+
+  li{
+    font-size:8.8px;
+    line-height:1.3;
+    margin-bottom:2px;
+    padding-left:8px;
+    position:relative;
+  }
+
+  li::before{
+    content:"•";
+    color:var(--gold);
+    font-weight:900;
+    position:absolute;
+    left:0;
+  }
+
+  .example{
+    border-left:4px solid var(--teal);
+    background:var(--green-wash);
+    border-radius:7px;
+    padding:8px 10px;
+    font-size:9.5px;
+    line-height:1.4;
+  }
+
+  .example b{
+    color:var(--teal);
+  }
+
+  .traps-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:3mm;
+  }
+
+  .trap{
+    border:1.3px solid var(--red);
+    border-top:4px solid var(--red);
+    border-radius:8px;
+    padding:8px 10px;
+    background:#FDF6F7;
+  }
+
+  .trap.warning{
+    border-color:var(--gold);
+    background:#FFFBEC;
+    border-left:5px solid var(--gold);
+    border-top:1.3px solid var(--gold);
+  }
+
+  .trap h3{
+    font-size:10.5px;
+    color:var(--navy);
+    margin-bottom:4px;
+  }
+
+  .trap p{
+    font-size:8.8px;
+    line-height:1.35;
+    margin-bottom:4px;
+  }
+
+  .trap .bad{
+    color:var(--red);
+    text-decoration:line-through;
+    font-family:monospace;
+    display:block;
+    font-size:8.5px;
+    margin-bottom:2px;
+  }
+
+  .trap .good{
+    color:var(--teal);
+    font-family:monospace;
+    display:block;
+    font-size:8.5px;
+    font-weight:700;
+  }
+
+  .raci{
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:8.5px;
+  }
+
+  th{
+    background:var(--navy);
+    color:#fff;
+    text-align:left;
+    padding:5px 7px;
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:.45px;
+  }
+
+  td{
+    padding:4px 7px;
+    border-top:1px solid var(--line);
+    vertical-align:top;
+    line-height:1.25;
+  }
+
+  tr:nth-child(even) td{
+    background:var(--wash);
+  }
+
+  td:first-child{
+    width:16%;
+    font-weight:800;
+    color:var(--navy);
+  }
+
+  td:nth-child(2){
+    width:27%;
+    font-weight:700;
+  }
+
+  .exam{
+    background:var(--navy);
+    color:#fff;
+    border-radius:8px;
+    padding:8px 11px;
+    font-size:10px;
+    line-height:1.4;
+  }
+
+  .exam b{
+    color:var(--gold);
+  }
+
+  .retrieval{
+    border:1.5px dashed var(--navy-soft);
+    border-radius:8px;
+    padding:9px 11px;
+    background:var(--wash);
+    margin-top:auto;
+  }
+
+  .retrieval h3{
+    font-size:11.5px;
+    color:var(--navy);
+    margin-bottom:2px;
+  }
+
+  .retrieval .lead{
+    font-size:8.8px;
+    color:var(--grey);
+    margin-bottom:7px;
+  }
+
+  .items{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+  }
+
+  .item{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 7px;
+    font-size:8.5px;
+    line-height:1.3;
+    text-align:center;
+  }
+
+  .item b{
+    display:block;
+    color:var(--navy);
+    font-size:8px;
+    margin-bottom:3px;
+    text-transform:uppercase;
+    letter-spacing:.45px;
+  }
+
+  .answers{
+    margin-top:7px;
+    padding-top:5px;
+    border-top:1px dashed var(--line);
+    font-size:8px;
+    color:var(--grey);
+    transform:rotate(180deg);
+    text-align:center;
+  }
+
+  footer{
+    font-size:8px;
+    color:var(--grey);
+    display:flex;
+    justify-content:space-between;
+    border-top:1px solid var(--line);
+    padding-top:5px;
+  }
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .page{
+      box-shadow:none;
+      width:auto;
+      min-height:auto;
+      padding:7mm;
+    }
+    @page{
+      size:A4 portrait;
+      margin:5mm;
+    }
+  }
+</style>
+</head>
+
+<body>
+<div class="page">
+
+  <header>
+    <div>
+      <h1>🎓 New UG Course Proposal Workflow</h1>
+      <div class="sub">IS Programme · Faculty Survival Guide · From idea to enrolment</div>
+    </div>
+    <div class="qbadge">
+      <span>One question it answers</span>
+      How does a course idea become an enrolable UG course?
+    </div>
+  </header>
+
+  <div class="flow" aria-label="Six-stage course proposal workflow">
+    <div class="flow-step">
+      <div class="flow-icon">💡</div>
+      <div class="flow-name">IDEATE</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon">🤝</div>
+      <div class="flow-name">CONSULT</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon">🧩</div>
+      <div class="flow-name">ALIGN</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon">✅</div>
+      <div class="flow-name">APPROVE</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon">📝</div>
+      <div class="flow-name">CREATE</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-icon">🚀</div>
+      <div class="flow-name">OFFER</div>
+    </div>
+  </div>
+
+  <div class="section-label">🗺️ The Six-Stage Map</div>
+
+  <div class="steps-grid">
+
+    <section class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-head">
+        <div class="step-emoji">💡</div>
+        <div class="step-title">IDEATE · Find the need</div>
+      </div>
+      <p class="purpose"><b>Purpose:</b> Identify a curriculum need and shape an initial course concept.</p>
+      <div class="role">Accountable: Course Proposer</div>
+      <div class="micro-grid">
+        <div>
+          <div class="micro-title">Answer</div>
+          <ul>
+            <li>What problem does it solve?</li>
+            <li>Who is the target student?</li>
+            <li>How does it support programme outcomes?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="micro-title">Produce</div>
+          <ul>
+            <li>Course rationale</li>
+            <li>Draft title and learning outcomes</li>
+            <li>High-level assessment approach</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-head">
+        <div class="step-emoji">🤝</div>
+        <div class="step-title">CONSULT · Test the idea</div>
+      </div>
+      <p class="purpose"><b>Purpose:</b> Validate the idea before investing effort in formal development.</p>
+      <div class="role">Accountable: Course Proposer</div>
+      <div class="micro-grid">
+        <div>
+          <div class="micro-title">Consult</div>
+          <ul>
+            <li>Programme Leadership</li>
+            <li>Subject Matter Experts</li>
+            <li>Faculty teaching related courses</li>
+          </ul>
+        </div>
+        <div>
+          <div class="micro-title">Check</div>
+          <ul>
+            <li>Overlap with existing courses</li>
+            <li>Student demand</li>
+            <li>Available resources</li>
+          </ul>
+        </div>
+      </div>
+      <p class="purpose"><b>Output:</b> Stakeholder feedback and a refined course concept.</p>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-head">
+        <div class="step-emoji">🧩</div>
+        <div class="step-title">ALIGN · Fit the curriculum</div>
+      </div>
+      <p class="purpose"><b>Purpose:</b> Determine how the course fits within the IS curriculum.</p>
+      <div class="role">Accountable: Programme Leadership</div>
+      <div class="micro-grid">
+        <div>
+          <div class="micro-title">Decide</div>
+          <ul>
+            <li>Core, track course, or elective?</li>
+            <li>Prerequisites and exclusions?</li>
+            <li>Which programme outcomes?</li>
+          </ul>
+        </div>
+        <div>
+          <div class="micro-title">Produce</div>
+          <ul>
+            <li>Curriculum positioning</li>
+            <li>Competency mapping</li>
+            <li>Requisites and exclusions</li>
+            <li>Assessment framework</li>
+          </ul>
+        </div>
+      </div>
+      <p class="purpose"><b>Design centre:</b> This is typically where most curriculum design work occurs.</p>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-head">
+        <div class="step-emoji">✅</div>
+        <div class="step-title">APPROVE · Secure sign-off</div>
+      </div>
+      <p class="purpose"><b>Purpose:</b> Obtain academic and governance approval.</p>
+      <div class="role">Accountable: School Academic Leadership</div>
+      <div class="micro-grid">
+        <div>
+          <div class="micro-title">Engage</div>
+          <ul>
+            <li>School Academic Leadership</li>
+            <li>Registrar's Office</li>
+            <li>Relevant curriculum committees</li>
+          </ul>
+        </div>
+        <div>
+          <div class="micro-title">Check</div>
+          <ul>
+            <li>Academic soundness</li>
+            <li>Curriculum policy alignment</li>
+            <li>Governance support</li>
+          </ul>
+        </div>
+      </div>
+      <p class="purpose"><b>Output:</b> Approved course proposal and governance sign-off.</p>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-head">
+        <div class="step-emoji">📝</div>
+        <div class="step-title">CREATE · Record the course</div>
+      </div>
+      <p class="purpose"><b>Purpose:</b> Create the official course record.</p>
+      <div class="role">Accountable: Course Owner</div>
+      <div class="micro-grid">
+        <div>
+          <div class="micro-title">Support</div>
+          <ul>
+            <li>Curriculum Administration</li>
+            <li>CCMS / Coursedog</li>
+          </ul>
+        </div>
+        <div>
+          <div class="micro-title">Capture</div>
+          <ul>
+            <li>Title and description</li>
+            <li>Learning outcomes</li>
+            <li>Assessment and competencies</li>
+            <li>Credits, requisites, delivery information</li>
+          </ul>
+        </div>
+      </div>
+      <p class="purpose"><b>Output:</b> Official course record in CCMS.</p>
+    </section>
+
+    <section class="step-card">
+      <div class="step-num">6</div>
+      <div class="step-head">
+        <div class="step-emoji">🚀</div>
+        <div class="step-title">OFFER · Enable enrolment</div>
+      </div>
+      <p class="purpose"><b>Purpose:</b> Prepare the course for student enrolment.</p>
+      <div class="role">Accountable: Academic Operations</div>
+      <div class="micro-grid">
+        <div>
+          <div class="micro-title">Coordinate</div>
+          <ul>
+            <li>Undergraduate Administration</li>
+            <li>Timetabling Team</li>
+            <li>Programme Leadership</li>
+            <li>Teaching Faculty</li>
+          </ul>
+        </div>
+        <div>
+          <div class="micro-title">Activate</div>
+          <ul>
+            <li>Scheduling</li>
+            <li>Faculty assignment</li>
+            <li>Catalogue publication</li>
+            <li>Registration setup</li>
+          </ul>
+        </div>
+      </div>
+      <p class="purpose"><b>Output:</b> Published course with student enrolment enabled.</p>
+    </section>
+
+  </div>
+
+  <div class="example">
+    <b>Worked example:</b> A faculty member notices that students need stronger AI product management skills.
+    They <b>ideate</b> the course, <b>consult</b> colleagues about demand and overlap, <b>align</b> it as an elective with suitable outcomes and requisites, obtain <b>approval</b>, <b>create</b> the official record, and then the course is <b>offered</b> through scheduling and registration setup.
+  </div>
+
+  <div class="section-label">🩴 Chancleta Alerts · Avoid These Process Errors</div>
+
+  <div class="traps-grid">
+    <div class="trap">
+      <h3>🚫 Do not start with the form</h3>
+      <p>Formal data entry is not the same as curriculum design.</p>
+      <span class="bad">Form first → hope the fit emerges</span>
+      <span class="good">Need → consultation → curricular alignment → form</span>
+    </div>
+
+    <div class="trap warning">
+      <h3>⚠️ Do not skip the fit check</h3>
+      <p>A compelling topic may still duplicate an existing course or lack a clear curriculum position.</p>
+      <span class="bad">“Students will like it”</span>
+      <span class="good">Show demand, distinctiveness, outcomes, and resources</span>
+    </div>
+
+    <div class="trap">
+      <h3>🚫 Do not confuse roles</h3>
+      <p>The proposer develops the idea. Programme Leadership establishes curricular fit. Operations prepares delivery.</p>
+      <span class="bad">One person owns every decision</span>
+      <span class="good">Accountability moves as the workflow advances</span>
+    </div>
+
+    <div class="trap warning">
+      <h3>⚠️ Approval is not enrolment</h3>
+      <p>Academic approval creates permission. Scheduling, publication, and registration make the course available to students.</p>
+      <span class="bad">Approved = automatically enrolable</span>
+      <span class="good">Approve → create record → offer course</span>
+    </div>
+  </div>
+
+  <div class="section-label">👥 RACI-Inspired Accountability Snapshot</div>
+
+  <div class="raci">
+    <table>
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Accountable</th>
+          <th>Consulted or Supporting</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>💡 Ideate</td>
+          <td>Course Proposer</td>
+          <td>Subject Matter Experts, Industry Partners</td>
+        </tr>
+        <tr>
+          <td>🤝 Consult</td>
+          <td>Course Proposer</td>
+          <td>Programme Leadership, Faculty</td>
+        </tr>
+        <tr>
+          <td>🧩 Align</td>
+          <td>Programme Leadership</td>
+          <td>Curriculum Governance Lead, Curriculum Owners</td>
+        </tr>
+        <tr>
+          <td>✅ Approve</td>
+          <td>School Academic Leadership</td>
+          <td>Registrar's Office, Curriculum Committees</td>
+        </tr>
+        <tr>
+          <td>📝 Create</td>
+          <td>Course Owner</td>
+          <td>Curriculum Administration</td>
+        </tr>
+        <tr>
+          <td>🚀 Offer</td>
+          <td>Academic Operations</td>
+          <td>Programme Leadership, Teaching Faculty</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="exam">
+    <b>Exam-Ready Sentence:</b>
+    Faculty design the course, Programme Leadership ensures curricular fit, academic governance approves it, Curriculum Administration records it, and Academic Operations delivers it to students.
+  </div>
+
+  <div class="retrieval">
+    <h3>🧠 Retrieval Practice</h3>
+    <div class="lead">Cover the answers and test yourself. Which stage owns each situation?</div>
+    <div class="items">
+      <div class="item">
+        <b>A · New idea</b>
+        A faculty member identifies a curriculum gap.
+      </div>
+      <div class="item">
+        <b>B · Curriculum fit</b>
+        The team decides whether it is core, track, or elective.
+      </div>
+      <div class="item">
+        <b>C · Official record</b>
+        The course data is entered into CCMS / Coursedog.
+      </div>
+      <div class="item">
+        <b>D · Student access</b>
+        The course is scheduled and registration is enabled.
+      </div>
+    </div>
+    <div class="answers">
+      Answers: A = Ideate · B = Align · C = Create · D = Offer
+    </div>
+  </div>
+
+  <footer>
+    <div>IS Programme · Undergraduate Curriculum</div>
+    <div>New UG Course Proposal Workflow · Quick Reference</div>
+  </footer>
+
+</div>
+</body>
+</html>
