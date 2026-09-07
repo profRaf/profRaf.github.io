@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 60-Second Pre-Quiz Reset</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <style>
+    :root {
+      --bg-base: #0b132b;
+      --bg-card: #1c2541;
+      --bg-card-light: #243256;
+      --accent-cyan: #48cae4;
+      --accent-teal: #00b4d8;
+      --accent-gold: #ffd166;
+      --text-main: #f8f9fa;
+      --text-muted: #94a3b8;
+      --border-line: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 10%, #1e293b 0%, #0b132b 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .poster {
+      width: 100%;
+      max-width: 900px;
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border-line);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1f3160 0%, #111e38 100%);
+      padding: 28px 32px;
+      border-bottom: 1px solid var(--border-line);
+      position: relative;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(72, 202, 228, 0.15);
+      color: var(--accent-cyan);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(72, 202, 228, 0.3);
+      margin-bottom: 12px;
+    }
+
+    .header h1 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 700px;
+      line-height: 1.5;
+    }
+
+    /* Main Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 28px 32px;
+    }
+
+    @media (max-width: 768px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+      .header {
+        padding: 20px;
+      }
+    }
+
+    .card {
+      background: var(--bg-card-light);
+      border-radius: 14px;
+      border: 1px solid var(--border-line);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* Contrast Box */
+    .vs-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vs-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    .vs-wrong {
+      background: rgba(239, 68, 68, 0.12);
+      border-left: 3px solid #ef4444;
+      color: #fca5a5;
+    }
+
+    .vs-right {
+      background: rgba(16, 185, 129, 0.12);
+      border-left: 3px solid #10b981;
+      color: #6ee7b7;
+    }
+
+    /* Pacer Section */
+    .pacer-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .circle-wrapper {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .pulse-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(72, 202, 228, 0.25) 0%, rgba(72, 202, 228, 0.05) 70%, transparent 100%);
+      animation: breatheAnimation 10s ease-in-out infinite;
+    }
+
+    .center-circle {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #0b132b;
+      border: 2px solid var(--accent-cyan);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(72, 202, 228, 0.35);
+      z-index: 2;
+    }
+
+    .center-circle i {
+      font-size: 1.6rem;
+      color: var(--accent-cyan);
+    }
+
+    .protocol-steps {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .step-pill {
+      flex: 1;
+      background: rgba(11, 19, 43, 0.6);
+      border: 1px solid var(--border-line);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .step-pill .time {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+      display: block;
+    }
+
+    .step-pill .label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    /* Mechanism List */
+    .mechanism-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .mechanism-list li {
+      display: flex;
+      gap: 10px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: #cbd5e1;
+    }
+
+    .mechanism-list i {
+      color: var(--accent-teal);
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+
+    /* Target Quote Box */
+    .quote-box {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, rgba(255, 209, 102, 0.1) 0%, rgba(72, 202, 228, 0.1) 100%);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .quote-primary {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    .quote-secondary {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 16px 32px;
+      background: #0c1527;
+      border-top: 1px solid var(--border-line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer-highlight {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Breathing Animation Keyframes */
+    /* 10s cycle: 4s inhale (0% to 40%), 6s exhale (40% to 100%) */
+    @keyframes breatheAnimation {
+      0% {
+        transform: scale(0.85);
+        opacity: 0.4;
+      }
+      40% {
+        transform: scale(1.4);
+        opacity: 0.95;
+      }
+      100% {
+        transform: scale(0.85);
+        opacity: 0.4;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poster">
+    <!-- Header -->
+    <header class="header">
+      <div class="badge">
+        <i class="fa-solid fa-brain"></i> Applied Cognitive Performance
+      </div>
+      <h1>The 60-Second Pre-Quiz Reset</h1>
+      <p>Why slowing your breath in the final minute works better than cramming one last fact.</p>
+    </header>
+
+    <!-- Content Grid -->
+    <main class="content-grid">
+      
+      <!-- Card 1: The Final Minute Dilemma -->
+      <section class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-clock"></i> The Last Minute Trade-Off
+        </div>
+        <div class="vs-container">
+          <div class="vs-item vs-wrong">
+            <i class="fa-solid fa-triangle-exclamation" style="margin-top: 2px;"></i>
+            <div>
+              <strong>Cramming 1 More Fact:</strong> Heightens cognitive overload, elevates sympathetic arousal, and triggers retrieval blocking.
+            </div>
+          </div>
+          <div class="vs-item vs-right">
+            <i class="fa-solid fa-circle-check" style="margin-top: 2px;"></i>
+            <div>
+              <strong>60s Controlled Breathing:</strong> Regulates the nervous system, clears mental noise, and restores access to working memory.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 2: The 4:6 Protocol -->
+      <section class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-lungs"></i> The 4:6 Protocol
+        </div>
+        <div class="pacer-container">
+          <div class="circle-wrapper">
+            <div class="pulse-ring"></div>
+            <div class="center-circle">
+              <i class="fa-solid fa-wind"></i>
+            </div>
+          </div>
+          <div class="protocol-steps">
+            <div class="step-pill">
+              <span class="time">4s</span>
+              <span class="label">Inhale (Nose)</span>
+            </div>
+            <div class="step-pill">
+              <span class="time">6s</span>
+              <span class="label">Exhale (Mouth)</span>
+            </div>
+            <div class="step-pill">
+              <span class="time">6x</span>
+              <span class="label">Cycles (60s total)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 3: Neuro-Physiological Impact -->
+      <section class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-heart-pulse"></i> How It Works
+        </div>
+        <ul class="mechanism-list">
+          <li>
+            <i class="fa-solid fa-arrow-down-short-wide"></i>
+            <span><strong>Reduces Physiological Arousal:</strong> Longer exhalations stimulate the vagus nerve to lower heart rate and reduce cortisol.</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-shield-halved"></i>
+            <span><strong>Prevents Working Memory Choke:</strong> Calms the amygdala so your prefrontal cortex can process questions systematically.</span>
+          </li>
+          <li>
+            <i class="fa-solid fa-crosshairs"></i>
+            <span><strong>Establishes Calm Focus:</strong> Transitions brain state from panic reactivity to deliberate analytical retrieval.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Card 4: Execution Checklist -->
+      <section class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-list-check"></i> Action Checklist
+        </div>
+        <ul class="mechanism-list">
+          <li>
+            <i class="fa-regular fa-circle-check"></i>
+            <span><strong>T-Minus 60s:</strong> Put away notes, screens, and summary sheets completely.</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-circle-check"></i>
+            <span><strong>Posture Check:</strong> Plant feet flat, relax shoulders, unclamp jaw.</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-circle-check"></i>
+            <span><strong>Run Protocol:</strong> Complete 6 smooth breaths (4s in, 6s out).</span>
+          </li>
+          <li>
+            <i class="fa-regular fa-circle-check"></i>
+            <span><strong>Quiz Begins:</strong> Read question 1 with a clear, steady gaze.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Wide Banner: Core Insight -->
+      <section class="quote-box">
+        <div class="quote-primary">
+          "The goal is not to become smarter in one minute. The goal is to let your brain use what it already knows."
+        </div>
+        <div class="quote-secondary">
+          Good luck. Trust your preparation.
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>Applied Study & Exam Strategy</div>
+      <div class="footer-highlight">60 Seconds to Peak Mental Clarity</div>
+    </footer>
+  </div>
+
+</body>
+</html>
